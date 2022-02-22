@@ -30,6 +30,18 @@ namespace Krestiki
             Console.ReadKey();
             Console.Clear();
         }
+        
+         
+        
+        //задаем ничью 
+        
+        static void Game ()
+        {
+            Console.WriteLine("Tie");
+            Console.WriteLine("press any key");
+            Console.ReadKey();
+            Console.Clear();
+        }
 
 
         static void Main(string[] args)
@@ -70,14 +82,38 @@ namespace Krestiki
                 ShowField();
 
                 // Проверяем победу для текущего игрока.
-                if (Winner(player))
+                if (Winner('X'))
                 {
                     // Текущий игрок победил, пишем о победе и очищаем поле.
-                    Console.Clear();
+                    Win('X');
                     continue;
                 }
                 
+                
+                if (Winner('0'))
+                {
+                    // Текущий игрок победил, пишем о победе и очищаем поле.
+                    Win('0');
+                    continue;
+                }
+                else
+                {
+                    Game();
+                }
+
+                if (player == '0')
+                {
+                    player = 'X';
+                }
+                else 
+                {
+                    player ='0';
+                }
+                
+                
                 // ===== КОНЕЦ ХОДА =====
+                
+                
             }
         }
 
@@ -114,6 +150,23 @@ namespace Krestiki
                 (field[0, 2] == player1 && field[1, 1] == player1 && field[2, 0] == player1)
             );
         }
+        
+        
+        /// Эта функция проверяет ничью. 
+        /// Значек игрока для проверки передается в функцию.
+        /// Чтобы проверить победу для двух игроков необходимо вызвать функцию для кажлого игрока отдельно.
+        static bool Tie()
+        {
+            // Эта функция проверяет координаты по столбикам, диагонали и колонкам.
+            // Обычно здесь бы был цикл, но мы можем перечислить ячейки по координатам т.к. поле маленькое.
+            return ( (field[0, 0] != ' ' && field[0, 1] != ' ' && field[0, 2] != ' ') &&
+                     (field[1, 0] != ' ' && field[1, 1] != ' ' && field[1, 2] != ' ') &&
+                     (field[2, 0] != ' ' && field[2, 1] != ' ' && field[2, 2] != ' ')
+                );
+        }
+               
+            
+        
 
         /// Функция ставит символ текущего игрока по заданным координатам.
         /// Она меняет игровое поле но не проверяет условие победы. 
@@ -130,6 +183,8 @@ namespace Krestiki
                 {
                     ShowError("A move has already been made along these coordinates.");
                 }
+                
+                
             }
         }
     }
